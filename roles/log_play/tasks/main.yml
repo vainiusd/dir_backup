@@ -1,0 +1,18 @@
+- name: Log backup success locally
+  lineinfile:
+    path: "{{ joblog_path }}{{ inventory_hostname }}.log"
+    state: present
+    create: yes
+    insertbefore: BOF
+    line: Backup success for {{ inventory_hostname }} at {{ jobtime }}
+  delegate_to: localhost
+
+- name: Log backup success remotely
+  lineinfile:
+    path: "{{ remote_joblog_path }}{{ inventory_hostname }}.log"
+    state: present
+    create: yes
+    insertbefore: BOF
+    line: Backup success for {{ inventory_hostname }} at {{ jobtime }}
+  delegate_to: remote
+

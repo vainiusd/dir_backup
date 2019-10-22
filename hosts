@@ -1,0 +1,34 @@
+all:
+#
+# Individual entries
+#
+  hosts:
+    remote:
+    dir1:
+      local_path: ./dir1/
+      remote_path: ~/dir1/
+#      age: -3h
+      pattern: "*"
+#      custom_name: "{{ inventory_hostname}}_latest.bak"
+    dir2:
+      local_path: ./dir2/
+      remote_path: ~/dir2/ 
+    dir3:
+      local_path: ./dir3/
+      remote_path: ~/dir3/
+#
+# Variables common for all individual entries
+#
+  vars:
+    joblog_path: ./jobs/
+    remote_joblog_path: ~/jobs/
+    jobtime: "{{ lookup('pipe', 'date +%Y-%m-%d--%H-%M') }}"
+#
+# Host groups
+#
+  children:
+    dirs:
+      hosts:
+        dir1:
+        dir2:
+        dir3:

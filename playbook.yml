@@ -1,0 +1,23 @@
+---
+#
+# Gather new files in directories.
+#
+- name: Gathering new files to remote storage
+  hosts: dirs
+  connection: local
+  gather_facts: no
+
+  roles:
+     - files_by_dir
+
+#
+# Backup new files in directories.
+#
+- name: Moving new files to remote storage
+  hosts: dirs
+  connection: ssh
+  gather_facts: no
+
+  roles:
+     - to_remote
+     - log_play

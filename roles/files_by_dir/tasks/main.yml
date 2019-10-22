@@ -1,0 +1,13 @@
+- name: Find files that are newer than age variable (default 12h)
+  find:
+    paths: "{{ local_path }}"
+    age: "{{ age | default('-12h') }}"
+    pattern: "{{ pattern | default('*') }}"
+  register: found
+
+- name: Fail if no files found
+  fail:
+    msg: "Failed because new file(s) in {{ inventory_hostname }} not found"
+  when: found.files | length == 0
+
+

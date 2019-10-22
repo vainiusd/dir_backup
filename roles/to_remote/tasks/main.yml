@@ -1,0 +1,22 @@
+- name: Check if backup directory is present on remote host
+  file:
+    path: "{{ remote_path }}"
+    state: directory
+  delegate_to: remote
+
+- name: Copy the files to remote storage
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ remote_path }}{{ item.path | basename }}"
+  with_items:
+    - "{{ found.files | sort(attribute='mtime') }}"
+  delegate_to: remote
+
+- name: Copy the the latest file to remote storage with custom name
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ remote_path }}{{ custom_name }}"
+  with_items:
+    - "{{ found.files | sort(attribute='mtime') | last }}"
+  delegate_to: remote
+  when: custom_name is defined
